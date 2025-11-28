@@ -4,8 +4,8 @@ import * as authController from '../controllers/authController.js'
 const router = express.Router();
 
 router.post('/register', authController.register);
-// router.post('/login', authController.login);
-// router.post('/verifyEmail', authController.verifyEmail);
+router.post('/login', authController.login);
+router.get('/verifyEmail', authController.verifyEmail);
 // router.post('/forgetPassword', authController.forgotPassword);
 // router.post('/resetPassword', authController.resetPassword);
 

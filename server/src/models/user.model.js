@@ -48,7 +48,7 @@ export const verifyUser = async (token) => {
     //update is_verified = true 
 
     const res = await pool.query(
-        'UPDATE users SET is_verified = true RETURNING *',
+        'UPDATE users SET is_verified = true, verification_token = NULL WHERE verification_token = $1 RETURNING *',
         [token]
     );
     return res.rows[0]
