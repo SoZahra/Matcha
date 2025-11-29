@@ -3,6 +3,7 @@ import { sendPasswordResetEmail, sendVerifEmail } from "../config/email.js";
 import crypto from "crypto";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { create } from "domain";
 
 export const register = async (req, res) => {
   try {
@@ -36,7 +37,7 @@ export const register = async (req, res) => {
       return res.status(400).json({ error: "Email already exists" });
     }
 
-    const passwordHash = await bcryptjs.hash(password, 10);
+    const passwordHash = await bcrypt.hash(password, 10);
     const verificationToken = crypto.randomBytes(32).toString("hex");
 
     const newUser = await User.createUser(
@@ -233,4 +234,36 @@ export const resetPassword = async (req, res) => {
       details: error.message,
     });
   }
+}
+
+
+export const getProfile = async (req, res) => {
+	try{
+
+		const { userId } = req.user
+		const user = await User.findById(userId)
+		if (!user){
+			return res.status(400).json({ error: "User not find " });
+		}
+
+		return res.status(200).json({
+			message : "Profile find !",
+		user: {
+			id : user.id,
+			email: user.email,
+			username: user.username,
+			firstName: user.first_name,
+			lastName: user.last_name,
+			is_verified: user.is_verified,
+			createAt: user.create_at
+		}
+		});
+
+	}catch (error) {
+    console.error("Profile error:", error);
+    return res.status(500).json({
+      error: "Get profile failed",
+      details: error.message,
+    });
+	}
 }
