@@ -1,5 +1,5 @@
 import * as User from "../models/user.model.js";
-import { sendVerifEmail } from "../config/email.js";
+import { sendPasswordResetEmail, sendVerifEmail } from "../config/email.js";
 import crypto from "crypto";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -81,9 +81,8 @@ export const verifyEmail = async (req, res) => {
       }
       
       // 3. Chercher et vérifier le user avec User.verifyUser(token)
-      const verif = await User.verifyUser(token)
-      
       // 4. Vérifier que le user existe (token invalide ?)
+      const verif = await User.verifyUser(token)
       if(!verif){
         return res.status(400).json({ error: "Invalid or expired token" });
       }
@@ -162,10 +161,76 @@ export const login = async (req, res) => {
   }
 }
 
-// export const forgotPassword = (req, res) => {
-//     res.status(200).json({message: "Reset email sent ! "})
-// }
+export const forgotPassword = async (req, res) => {
+  try {
+    const {email} = req.body
+    if(!email){
+      return res.status(400).json({error: "email is required"})
+    }
 
-// export const resetPassword = (req, res) => {
-//     res.status(200).json({message: "Password reset successfully ! "})
-// }
+    const user = await User.findByEmail(email)
+    if(!user){
+      return res.status(400).json({error: "If this email exists, a password reset link has been sent."})
+    }
+
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    const expired = new Date(Date.now() + 3600000)
+
+    await User.updateResetPasswordToken(
+      email,
+      resetToken,
+      expired
+    );
+    await sendPasswordResetEmail(email, user.username, resetToken )
+
+    return res.status(200).json({
+      message:
+        "Password reset email sent! Check your inbox.",
+    });
+
+  }catch (err){
+    console.error("Forgot password error:", err);
+    return res.status(500).json({
+      err: "Password reset failed",
+      details: err.message,
+    });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+
+	try {
+		const {token, password} = req.body
+		if(!token || !password){
+      		return res.status(400).json({error: "Token and new password are required"})
+    	}
+
+		const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+		if (!regex.test(password)) {
+			return res.status(400).json({
+				error:
+				"Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character",
+			});
+		}
+
+		const user = await User.findByResetToken(token)
+		if(!user){
+			return res.status(400).json({ error : "Invalid or expired reset token"})
+		}
+
+		const passhash = await bcrypt.hash(password, 10)
+		await User.updatePassword(user.id, passhash)
+
+		return res.status(200).json ({
+			message : 
+				"Password reset successful! You can now login with your new password.",
+     	});
+
+	}catch (error) {
+    console.error("Reset password error:", error);
+    return res.status(500).json({
+      error: "Reset password failed",
+      details: error.message,
+    });
+  }
+}

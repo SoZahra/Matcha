@@ -69,7 +69,16 @@ export const updatePassword = async (userId, password_hash) => {
 
     const res = await pool.query(
         'UPDATE users SET password_hash = $1, reset_password_token = NULL, reset_password_expires = NULL WHERE id = $2 RETURNING *',
-        [userId, password_hash]
+        [password_hash, userId]
+    );
+    return res.rows[0]
+}
+
+export const findByResetToken = async (token) => {
+
+    const res = await pool.query(
+        'SELECT * FROM users WHERE reset_password_token = $1 AND reset_password_expires > NOW()',
+        [token]
     );
     return res.rows[0]
 }
