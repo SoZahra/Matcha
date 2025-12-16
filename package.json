@@ -2,6 +2,7 @@
   "dependencies": {
     "bcrypt": "^6.0.0",
     "mailgen": "^2.0.32",
+    "overlayscrollbars": "^2.13.0",
     "pg": "^8.16.3"
   }
 }

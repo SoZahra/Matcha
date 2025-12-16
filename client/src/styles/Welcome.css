@@ -1,0 +1,160 @@
+
+.title-welcome {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 18vw;
+    color : #E02B2E;
+    letter-spacing: -0.7rem;
+    text-align: center;
+    margin: 0;
+    line-height: 1;
+    z-index: 10;
+    transition: none;
+}
+
+/* .welcome-container {
+    min-height: 200vh;
+} */
+
+/* Dans Welcome.css */
+/* .welcome-container {
+    min-height: 300vh;
+    position: relative;
+    overscroll-behavior: none;
+} */
+
+.welcome-container-snap {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    overscroll-behavior: none;
+}
+
+.snap-section {
+    height: 100vh;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    position: relative;
+}
+
+
+.section-indicator {
+    position: fixed;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 100;
+}
+
+.section-indicator span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(224, 43, 46, 0.3);
+    border: 2px solid #E02B2E;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.section-indicator span.active {
+    background: #E02B2E;
+    transform: scale(1.3);
+}
+
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+    transition: none;
+}
+
+/* .grain-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0.20; 
+    pointer-events: none;
+    z-index: 1; 
+    mix-blend-mode: overlay;  
+    background-repeat: no-repeat; 
+    background-size: cover; 
+    background-position: center;
+    pointer-events: none;
+} */
+
+.grain-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-repeat: no-repeat; 
+    background-size: cover; 
+    background-position: center;
+    pointer-events: none;
+    opacity: 0.2;
+    z-index: 1;
+    mix-blend-mode: overlay;
+}
+
+.text{
+    position: fixed;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color : #E02B2E;
+    transition: none;
+}
+
+.log{
+    position: fixed;
+    font-size: 30px;
+    font-weight: 450;
+    color : #E02B2E;
+}
+
+.login{
+    left: 49%;
+    top: 60%
+}
+
+.register{
+    left: 48%;
+    top: 55%
+}
+
+.smalltext{
+    left: 63%;
+    top: 15%
+}
+
+.thefirst{
+    right: 62%;
+    top: 40%;
+}
+
+.letstalk{
+    right: 45%;
+    top: 70%
+}
+
+
+
+/*firefox*/
+/* * {
+    scrollbar-width: thin;
+    scrollbar-color: #E02B2E transparent;
+} */
