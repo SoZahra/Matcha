@@ -9,19 +9,22 @@
 
 html {
   background: #1d1812;
-  overflow-y: overlay;
   overscroll-behavior: none;
+  scrollbar-width: none; /* ← Pour Firefox */
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+    display: none;
 }
 
 body {
   font-family: "Montserrat", sans-serif;
   font-weight: 400;
   margin: 0;
-  padding: 0;
-  overscroll-behavior: none;
+
 }
-
-
+/* 
 ::-webkit-scrollbar{
   width: 8px;
 }
@@ -41,7 +44,7 @@ body {
 
 ::-webkit-scrollbar-thumb:hover{
     background: #c02020;
-}
+} */
 
 /* * {
     scrollbar-width: thin;

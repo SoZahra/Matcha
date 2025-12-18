@@ -13,23 +13,19 @@
     transition: none;
 }
 
-/* .welcome-container {
-    min-height: 200vh;
-} */
-
-/* Dans Welcome.css */
-/* .welcome-container {
-    min-height: 300vh;
-    position: relative;
-    overscroll-behavior: none;
-} */
-
 .welcome-container-snap {
     height: 100vh;
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
     overscroll-behavior: none;
+    scrollbar-width: none; /* ← Firefox */
+    -ms-overflow-style: none; /* ← IE/Edge */
+}
+
+/* Chrome, Safari, Opera */
+.welcome-container-snap::-webkit-scrollbar {
+    display: none;
 }
 
 .snap-section {
@@ -119,21 +115,21 @@
     transition: none;
 }
 
-.log{
+.log {
     position: fixed;
     font-size: 30px;
     font-weight: 450;
-    color : #E02B2E;
+    color: #E02B2E;
+    left: 50%; /* Centre horizontalement */
+    transform: translateX(-50%); /* Compense pour vraiment centrer */
 }
 
-.login{
-    left: 49%;
-    top: 60%
+.login {
+    top: 45%;
 }
 
-.register{
-    left: 48%;
-    top: 55%
+.register {
+    top: 50%;
 }
 
 .smalltext{
@@ -149,6 +145,17 @@
 .letstalk{
     right: 45%;
     top: 70%
+}
+
+.website{
+    position: fixed;
+    bottom: 70px; /* Distance depuis le bas du parent */
+    left: 0;
+    right: 0;
+    color: #E02B2E;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 450;
 }
 
 

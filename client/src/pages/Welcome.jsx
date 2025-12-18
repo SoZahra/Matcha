@@ -1,246 +1,25 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/Welcome.css'
 
 
-// function WelcomePage(){
-//     const [scrollProgress, setScrollProgress] = useState(0);
-
-//     useEffect(() => {
-//         const handlerScroll = () => {
-//         //calcul du scroll en %
-//         const windowHeight = window.innerHeight;
-//         const documentHeight = document.documentElement.scrollHeight;
-//         const scrollTop = window.scrollY;
-        
-//         // Progress de 0 à 1
-//         const progress = scrollTop / (documentHeight - windowHeight);
-//         setScrollProgress(progress);
-//         };
-
-//         window.addEventListener('scroll', handlerScroll);
-//         return () => {
-//             window.removeEventListener('scroll', handlerScroll);
-//         };
-//     }, []);
-
-//     const easeOutCubic = (x) => {
-//         return 1 - (1 - x) * (1 - x);
-//     };
-
-//     const getTitlePosition = () => {
-//     // Phase 1 : Scroll 0% → 50% : Monte de bas en haut
-//         if (scrollProgress <= 0.5) {
-//             const normalizedProgress = scrollProgress / 0.5;
-//             const easedProgress = easeOutCubic(normalizedProgress);
-//             const start = -10;
-//             const end = 88;
-//             return start + (end - start) * easedProgress;
-//         } 
-//         // Phase 2 : Scroll 50% → 75% : Redescend vers le milieu
-//         else if (scrollProgress <= 0.70) {
-//             const normalizedProgress = (scrollProgress - 0.5) / 0.25;  // 0.5→0.75 devient 0→1
-//             const easedProgress = easeOutCubic(normalizedProgress);
-//             const start = 88;   // Position en haut
-//             const end = 50;     // Redescend au milieu (ajuste cette valeur)
-//             return start + (end - start) * easedProgress;
-//         }
-//         // Phase 3 : Après 75% : Reste au milieu
-//         else {
-//             return 50;  // Bloqué au milieu
-//         }
-//     };
-
-//     const getBackgoundBlur = () => {
-//         if (scrollProgress <= 0.5) {
-//             return 0
-//         }
-//         else if (scrollProgress <= 0.70) {
-//             const normalizedProgress = (scrollProgress - 0.5) / 0.20;
-//             const easedProgress = easeOutCubic(normalizedProgress);
-//             const start = 0;  // ← En haut au départ
-//             const end = 5;    // ← En bas à la fin
-//             return start + (end - start) * easedProgress; 
-//         } else {
-//             return 5;
-//         }
-//     };
-
-
-//     const getLittlePosition = () => {
-//         if (scrollProgress <= 0.5) {
-//             const normalizedProgress = scrollProgress / 0.5;
-//             const easedProgress = easeOutCubic(normalizedProgress);
-//             const start = 15;  // ← En haut au départ
-//             const end = 67;    // ← En bas à la fin
-//             return start + (end - start) * easedProgress;  // (85 - 75) = -75, descend
-//         } else {
-//             return 67;
-//         }
-//     };
-
-//     const getBackgroundZoom = () => {
-//         if (scrollProgress <= 0.5) {
-//             const normalizedProgress = scrollProgress / 0.5;
-//             const easedProgress = easeOutCubic(normalizedProgress);
-//             const start = 1;      // Taille normale (100%)
-//             const end = 2;      // Zoom à 130% (ajuste selon ton goût)
-//             return start + (end - start) * easedProgress;
-//         } else {
-//             return 2;  // Reste zoomé
-//         }
-//     };
-
-//     const getSmallTextsOpacity = () => {
-//         if (scrollProgress < 0.5) {
-//             return 1
-//         }
-
-//         else if (scrollProgress <= 0.7) {
-//             const normalizedProgress = (scrollProgress - 0.5) / 0.2;
-//             const easedProgress = easeOutCubic(normalizedProgress);
-//             return 1 - easedProgress; // de 1 à 0 il disparait
-//         } else {
-//             return 0; // visible
-//         }
-//     };
-
-//     const getTitleSize = () => {
-//     // Phase 1 : 0% → 50% : Diminue
-//         if (scrollProgress <= 0.5) {
-//             const normalizedProgress = scrollProgress / 0.5;
-//             const easedProgress = easeOutCubic(normalizedProgress);
-//             const start = 25;
-//             const end = 8;
-//             return start + (end - start) * easedProgress;
-//         }
-//         // Phase 2 : 50% → 75% : Grossit un peu
-//         else if (scrollProgress <= 0.75) {
-//             const normalizedProgress = (scrollProgress - 0.5) / 0.25;
-//             const easedProgress = easeOutCubic(normalizedProgress);
-//             const start = 8;
-//             const end = 12;  // Grossit légèrement
-//             return start + (end - start) * easedProgress;
-//         }
-//         // Phase 3 : Reste fixe
-//         else {
-//             return 12;
-//         }
-//     };
-
-//     const getTalkPosition = () => {
-//         if (scrollProgress <= 0.5) {
-//             const normalizedProgress = scrollProgress / 0.5;
-//             const easedProgress = easeOutCubic(normalizedProgress);
-//             const start = 70;  // ← En haut au départ
-//             const end = 90;    // ← En bas à la fin
-//             return start + (end - start) * easedProgress;  // (85 - 75) = -75, descend
-//         } else {
-//             return 90;
-//         }
-//     };
-
-//     const getLoginOpacity = () => {
-//     if (scrollProgress < 0.7) {
-//         return 0;  // Invisibles
-//     } 
-//     else if (scrollProgress <= 0.85) {
-//         // Fade progressif entre 70% et 85%
-//         const normalizedProgress = (scrollProgress - 0.7) / 0.15;  // 0.7→0.85 devient 0→1
-//         const easedProgress = easeOutCubic(normalizedProgress);
-//         return easedProgress;  // De 0 à 1 (apparaît)
-//     } 
-//     else {
-//         return 1;  // Complètement visibles
-//     }
-// };
-
-    
-//     return (
-//         <>
-//         <div className='background' 
-//             style={{
-//                     backgroundImage: `url(${process.env.PUBLIC_URL}/img/back.png)`,
-//                     transform: `scale(${getBackgroundZoom()})`,
-//                     filter: `blur(${getBackgoundBlur()}px)`
-//                 }}>
-//         </div>
-
-//         <div className='grain-overlay'
-//             style={{
-//                     backgroundImage: `url(${process.env.PUBLIC_URL}/img/grain.jpg)`,
-//                 }}>
-//         </div>
-
-//             <div className="welcome-container">
-//                 { scrollProgress < 0.7 && ( /* text visible jusqu'a 70% du scroll */
-//                 <>
-//                     <h4 className='text smalltext' 
-//                         style={{ 
-//                             top: `${getLittlePosition()}vh`,
-//                             opacity: getSmallTextsOpacity()
-//                         }}>
-//                         She <br/>
-//                         like’s <br/>
-//                         Matcha 
-//                     </h4>
-
-//                     <h4 className='text thefirst'
-//                         style={{ 
-//                             top: `${getLittlePosition()}vh`,
-//                             opacity: getSmallTextsOpacity()
-//                         }}>
-//                         The first dating site<br/>
-//                         where common ground <br/>
-//                         is culture.
-//                     </h4>
-                    
-//                     <h4 className='text letstalk'
-//                         style={{ 
-//                             top: `${getTalkPosition()}vh`,
-//                             opacity: getSmallTextsOpacity()
-//                         }}
-//                     >
-//                         Let’s Talk about<br/>
-//                         books, movies <br/>
-//                         around a cup of tea 
-//                     </h4>
-//                 </>
-//                 )}
-
-//                  { scrollProgress >= 0.7 && ( /* text visible jusqu'a 70% du scroll */
-//                 <>
-//                     <h4 className='login log'
-//                         style={{
-//                             opacity: getLoginOpacity()
-//                         }}>
-//                         Login
-//                     </h4>
-//                     <h4 className='register log'
-//                         style={{
-//                             opacity: getLoginOpacity()
-//                         }}>
-//                         Register
-//                     </h4>
-//                         </>
-//                  )}
-
-//                 <h1 
-//                     className='title-welcome' 
-//                     style={{
-//                         bottom: `${getTitlePosition()}vh`,
-//                         fontSize: `${getTitleSize()}vh`,  /* Diminue de 18rem à 3rem */ 
-//                     }}>
-//                     MATCHA
-//                 </h1>
-//             </div>
-//         </>
-//     );
-// }
-
 
 function WelcomePage(){
+    const navigate = useNavigate();
     const [scrollProgress, setScrollProgress] = useState(0);
     const [currentSection, setCurrentSection] = useState(0);
+
+    const backgroundImages = [
+        '/img/tableaudeux.jpeg',
+        '/img/tableau.jpeg',
+        '/img/tableautrois.jpeg',
+        '/img/back.png',
+    ]
+
+    const [randomBackground] = useState(() =>{
+        const randomIndex = Math.floor(Math.random() * backgroundImages.length);
+        return backgroundImages[randomIndex]
+    })
 
     useEffect(() => {
         const container = document.querySelector('.welcome-container-snap');
@@ -267,7 +46,6 @@ function WelcomePage(){
                 setCurrentSection(2);
             }
             
-            console.log('Scroll progress:', progress.toFixed(2), 'Section:', currentSection);
         };
 
         if (container) {
@@ -298,11 +76,11 @@ function WelcomePage(){
             const normalizedProgress = (scrollProgress - 0.5) / 0.20;
             const easedProgress = easeOutCubic(normalizedProgress);
             const start = 88;
-            const end = 50;
+            const end = 65;
             return start + (end - start) * easedProgress;
         }
         else {
-            return 50;
+            return 65;
         }
     };
 
@@ -408,7 +186,7 @@ function WelcomePage(){
         <>
             <div className='background' 
                 style={{
-                    backgroundImage: `url(${process.env.PUBLIC_URL}/img/back.png)`,
+                    backgroundImage: `url(${process.env.PUBLIC_URL}${randomBackground})`,
                     transform: `scale(${getBackgroundZoom()})`,
                     filter: `blur(${getBackgroundBlur()}px)`
                 }}>
@@ -462,16 +240,29 @@ function WelcomePage(){
                 {/* Section 3 */}
                 <div className="snap-section">
                     <h4 className='login log'
+                        onClick={() => navigate('/login')}
                         style={{
-                            opacity: getLoginOpacity()
+                            opacity: getLoginOpacity(),
+                            cursor: 'pointer'
                         }}>
                         Login
                     </h4>
                     <h4 className='register log'
+                    onClick={() => navigate('/register')}
                         style={{
-                            opacity: getLoginOpacity()
+                            opacity: getLoginOpacity(),
+                            cursor: 'pointer'
                         }}>
                         Register
+                    </h4>
+
+                    <h4 className='website'
+                        style={{
+                            opacity: getLoginOpacity(),
+                        }}>
+                        This website is create by Fatima Zahra.<br/>
+                        I hope you enjoy it, and you will find your soulmate.<br/>
+                        And don’t forget, drink a cup a Matcha. 
                     </h4>
                 </div>
 

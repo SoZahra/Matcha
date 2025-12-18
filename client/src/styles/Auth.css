@@ -1,0 +1,167 @@
+/* Overlay semi-transparent */
+.auth-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.auth-overlay.visible {
+    opacity: 1;
+}
+
+/* Container du formulaire */
+.auth-container {
+    position: relative;
+    width: 90%;
+    max-width: 400px;
+    padding: 40px;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.auth-overlay.visible .auth-container {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Bouton fermer */
+.close-btn {
+    position: fixed;
+    top: -420px;
+    right: -460px;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 30px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+    z-index: 101;
+}
+
+.close-btn:hover {
+    transform: rotate(90deg);
+}
+
+/* Login */
+.auth-title {
+    position: fixed;
+    color: #ffffff;
+    font-size: 23px;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 40px;
+    top: -160px;
+    left: 150px;
+}
+
+/* Formulaire */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    margin-bottom: 20px;
+}
+
+/* Inputs */
+.auth-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #ffffff;
+    color: #E02B2E;
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    padding: 10px 0;
+    outline: none;
+    transition: border-color 0.3s ease;
+    width: 100%;
+    max-width: 320px;
+}
+
+.auth-input-row{
+    display: flex;
+    gap: 15px;
+}
+
+.auth-input-row .auth-input {
+    flex: 1;
+}
+
+.auth-input::placeholder {
+    color: rgba(255, 248, 248, 0.8);
+}
+
+.auth-input:focus {
+    border-bottom-color: #ffffff;
+}
+
+/* Bouton signup */
+.auth-button {
+    background: #8B7355;
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin: 20px auto 0;
+    display: block;
+    transition: background 0.3s ease;
+    border-radius: 20px;
+    box-shadow: 6px 7px 1rem #563232;
+}
+
+.auth-button:hover {
+    background: #715F32;
+}
+
+/* Footer du formulaire */
+.auth-footer {
+    color: rgba(216, 216, 216, 0.8);
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 50px;
+}
+
+.auth-link {
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: opacity 0.2s ease;
+}
+
+.auth-link:hover {
+    opacity: 0.7;
+}
+
+/* Crédits en bas */
+.auth-credits {
+    position: fixed;
+    bottom: -300px; /* Distance depuis le bas du parent */
+    left: 0;
+    right: 0;
+    color: #715F32;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 550;
+}
+
+/* Animation du titre MATCHA */
+.title-auth {
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
