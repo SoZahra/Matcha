@@ -165,3 +165,84 @@
 .title-auth {
     transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
+
+/* Popup d'erreur (petit, en haut à droite) */
+.error-popup {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #e74c3c;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: slideIn 0.3s ease;
+}
+
+.error-popup button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Overlay de succès (fond semi-transparent) */
+.success-overlay-inner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+}
+
+/* Popup de succès (centré) */
+.success-popup {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 400px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.success-popup p {
+    color: #2ecc71;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.success-popup button {
+    background: #2ecc71;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.success-popup button:hover {
+    background: #27ae60;
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

@@ -1,24 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Auth.css';
+import {getRandomBack } from '../utils/randomBackground'
+import {login} from '../services/api.js'
 
 function Login() {
     const navigate = useNavigate();
     const [isVisible, setIsVisible] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-    const backgroundImages = [
-            '/img/tableaudeux.jpeg',
-            '/img/tableau.jpeg',
-            '/img/tableautrois.jpeg',
-            '/img/back.png',
-        ]
-    
-    const [randomBackground] = useState(() =>{
-        const randomIndex = Math.floor(Math.random() * backgroundImages.length);
-        return backgroundImages[randomIndex]
-    })
+    const [randomBackground] = useState(getRandomBack)
+    const [error, setError] = useState('');
+    const [successMsg, setSuccessMsg] = useState('')
 
     useEffect(() => {
         // Animation d'entrée
@@ -32,8 +25,22 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // TODO: Logique de connexion
-        console.log('Login:', { email, password });
+        setError('');
+        try{
+            const userData = {
+                email: email, 
+                password: password, 
+            };
+            const response = await login(userData)
+
+            localStorage.setItem('token', response.token);
+            localStorage.setItem('user', JSON.stringify(response.user))
+
+            setSuccessMsg(response.message)
+            
+        }catch (err){
+            setError(err.message)
+        }
     };
 
     return (
@@ -122,6 +129,26 @@ function Login() {
                         And don't forget, drink a cup a Matcha.
                     </p>
                 </div>
+                {error && (
+                        <div className="error-popup">
+                            {error}
+                            <button onClick={() => setError('')}>✕</button>
+                        </div>
+                    )}
+                    {successMsg && (
+                        <div className="success-overlay-inner">
+                            <div className="success-popup">
+                                <p>{successMsg}</p>
+                                <button onClick={() => {
+
+                                    setSuccessMsg('');
+                                    navigate('/profile');
+                                }}>
+                                    OK
+                                </button>
+                            </div>
+                        </div>
+                    )}
             </div>
         </>
     );

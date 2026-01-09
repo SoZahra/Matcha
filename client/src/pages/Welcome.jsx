@@ -1,25 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Welcome.css'
-
+import {getRandomBack } from '../utils/randomBackground'
 
 
 function WelcomePage(){
     const navigate = useNavigate();
     const [scrollProgress, setScrollProgress] = useState(0);
     const [currentSection, setCurrentSection] = useState(0);
-
-    const backgroundImages = [
-        '/img/tableaudeux.jpeg',
-        '/img/tableau.jpeg',
-        '/img/tableautrois.jpeg',
-        '/img/back.png',
-    ]
-
-    const [randomBackground] = useState(() =>{
-        const randomIndex = Math.floor(Math.random() * backgroundImages.length);
-        return backgroundImages[randomIndex]
-    })
+    const [randomBackground] = useState(getRandomBack)
 
     useEffect(() => {
         const container = document.querySelector('.welcome-container-snap');

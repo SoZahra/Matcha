@@ -82,3 +82,22 @@ export const findByResetToken = async (token) => {
     );
     return res.rows[0]
 }
+
+export const updateProfile = async (userId, profileData) => {
+    const { bio, city, age, gender } = profileData;
+    
+    const res = await pool.query(
+        'UPDATE users SET bio = $1, city = $2, age = $3, gender = $4, updated_at = NOW() WHERE id = $5 RETURNING *',
+        [bio, city, age, gender, userId]
+    );
+    return res.rows[0];
+};
+
+export const updateProfileComplet = async (userId, isCompleted) => {
+    
+    const res = await pool.query(
+        'UPDATE users SET profile_completed = $2, updated_at = NOW() WHERE id = $1 RETURNING *',
+        [userId, isCompleted]
+    );
+    return res.rows[0]
+}

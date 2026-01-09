@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Auth.css';
+import {register} from '../services/api.js'
+import {getRandomBack } from '../utils/randomBackground'
 
 function Register() {
     const navigate = useNavigate();
@@ -9,18 +11,10 @@ function Register() {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [password, setPassword] = useState('');
-
-	const backgroundImages = [
-			'/img/tableaudeux.jpeg',
-			'/img/tableau.jpeg',
-			'/img/tableautrois.jpeg',
-			'/img/back.png',
-		]
-	
-	const [randomBackground] = useState(() =>{
-		const randomIndex = Math.floor(Math.random() * backgroundImages.length);
-		return backgroundImages[randomIndex]
-	})
+	const [username, setUsername] = useState('');
+    const [randomBackground] = useState(getRandomBack)
+	const [error, setError] = useState('');
+	const [successMsg, setSuccessMsg] = useState('')
 
     useEffect(() => {
         setTimeout(() => setIsVisible(true), 50);
@@ -33,8 +27,22 @@ function Register() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // TODO: Logique d'inscription
-        console.log('Register:', { email, password });
+        setError('');
+        try{
+
+            const userData = {
+                email: email, 
+                username: username, 
+                password: password, 
+                firstName: firstName, 
+                lastName: lastName
+            };
+            const response = await register(userData)
+            setSuccessMsg(response.message)
+
+        }catch(err) {
+            setError(err.message)
+        }
     };
 
     return (
@@ -101,6 +109,16 @@ function Register() {
                                 required
                             />
                         </div>
+
+						<input
+                            type="text"
+                            placeholder="Username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            className="auth-input"
+                            required
+                        />
+
                         <input
                             type="email"
                             placeholder="Email"
@@ -164,6 +182,25 @@ function Register() {
                         And don't forget, drink a cup a Matcha.
                     </p>
                 </div>
+                 {error && (
+                        <div className="error-popup">
+                            {error}
+                            <button onClick={() => setError('')}>✕</button>
+                        </div>
+                    )}
+                    {successMsg && (
+                        <div className="success-overlay-inner">
+                            <div className="success-popup">
+                                <p>{successMsg}</p>
+                                <button onClick={() => {
+                                    setSuccessMsg('');
+                                    navigate('/login');
+                                }}>
+                                    OK
+                                </button>
+                            </div>
+                        </div>
+                    )}
             </div>
         </>
     );
