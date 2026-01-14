@@ -56,3 +56,31 @@ export const login = async (userData) => {
         throw error
     }
 }
+
+export const completeProfile = async (profileData) => {
+
+    try {
+        const token = localStorage.getItem('token')
+        //fetch la data
+        const response = await fetch(`${API_URL}/profile`, {
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(profileData)
+        });
+        // si la reponse est pas ok
+        if(!response.ok){
+            const error = await response.json()
+            throw new Error(error.error || "Could not fetch ressource")
+        }
+        //parse le json que tu as recu du fetch 
+        const res = await response.json()
+        return res
+
+    }catch (error){
+        console.error(error)
+        throw error
+    }
+}

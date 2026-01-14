@@ -142,7 +142,7 @@ function Login() {
                                 <button onClick={() => {
 
                                     setSuccessMsg('');
-                                    navigate('/profile');
+                                    navigate('/new');
                                 }}>
                                     OK
                                 </button>

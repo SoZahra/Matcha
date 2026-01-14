@@ -4,6 +4,7 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import VerifyEmail from './pages/VerifyEmail.jsx';
+import NewProfile from './pages/NewProfile.jsx';
 
 function App(){
 
@@ -14,6 +15,7 @@ function App(){
             <Route path="/login" element={<Login />}/>
             <Route path="/profile" element={<Profile />}/> 
             <Route path="/verify-email" element={<VerifyEmail />}/> 
+            <Route path="/new" element={<NewProfile />}/> 
 
         </Routes>
     )

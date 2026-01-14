@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { completeProfile } from '../services/api';
-import { getRandomBackground } from '../utils/randomBackground';
+import { getRandomBackNewProfile } from '../utils/randomBackground';
 import '../styles/NewProfile.css';
 
 function NewProfile() {
     const navigate = useNavigate();
-    const [randomBackground] = useState(getRandomBackground)
+    const [randomBackground] = useState(getRandomBackNewProfile)
 
     //state pour le formulaire 
     const[gender, setGender] = useState('')
@@ -36,7 +36,7 @@ function NewProfile() {
                 gender,
                 sexual_preference: sexualPreference,
                 birth_date: birthDate,
-                biography,
+                bio,
                 city
             };
             console.log('Sending profile data', profileData);
@@ -51,7 +51,7 @@ function NewProfile() {
         } finally {
             setIsLoading(false);
         }
-    };
+    }; 
 
     return (
         <>
@@ -74,7 +74,6 @@ function NewProfile() {
                 style={{
                     bottom: '89vh',
                     fontSize: '18vh',
-                    opacity: isVisible ? 1 : 0,
                     transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)'
                 }}>
                 MATCHA
@@ -160,7 +159,7 @@ function NewProfile() {
                             <textarea
                                 placeholder='Tell us about yourself, your hobbies, what you are looking for...'
                                 value={bio}
-                                onChange={(e) => setCity(e.target.value)}
+                                onChange={(e) => setBio(e.target.value)}
                                 rows="4"
                                 maxLength="500"
                             />
@@ -175,6 +174,13 @@ function NewProfile() {
                         )}
 
                         {/* bouton*/}
+                        <button
+                            type='submit'
+                            className='submit-button'
+                            disabled={isLoading}
+                        >
+                            {isLoading ? 'Saving...' : 'Complete Profile'}
+                        </button>
 
                     </form>
                 </div>
@@ -182,3 +188,5 @@ function NewProfile() {
         </>
     );
 }
+
+export default NewProfile;
