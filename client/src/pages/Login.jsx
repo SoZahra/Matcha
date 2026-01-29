@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Auth.css';
 import {getRandomBack } from '../utils/randomBackground'
-import {login} from '../services/api.js'
+import {login, checkProfile} from '../services/api.js'
 
 function Login() {
     const navigate = useNavigate();
@@ -12,6 +12,7 @@ function Login() {
     const [randomBackground] = useState(getRandomBack)
     const [error, setError] = useState('');
     const [successMsg, setSuccessMsg] = useState('')
+    const [loginSucess, setLoginSuccess] = useState(false)
 
     useEffect(() => {
         // Animation d'entrée
@@ -19,8 +20,10 @@ function Login() {
     }, []);
 
     const handleClose = () => {
-        setIsVisible(false);
-        setTimeout(() => navigate('/'), 300); // Attend la fin de l'animation
+        if(!loginSucess){
+            setIsVisible(false);
+            setTimeout(() => navigate('/'), 300); // Attend la fin de l'animation
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -35,8 +38,19 @@ function Login() {
 
             localStorage.setItem('token', response.token);
             localStorage.setItem('user', JSON.stringify(response.user))
+            setLoginSuccess(true);
 
-            setSuccessMsg(response.message)
+            const profileCheck = await checkProfile();
+            
+            // 4. Redirige selon le résultat
+            if (profileCheck.profileCompleted) {
+
+                setSuccessMsg('Login successful!');
+                // Redirige après avoir cliqué sur OK
+             } else {   
+                setSuccessMsg('Please complete your profile');
+                // Redirige vers /new après avoir cliqué sur OK
+            }
             
         }catch (err){
             setError(err.message)
@@ -135,14 +149,56 @@ function Login() {
                             <button onClick={() => setError('')}>✕</button>
                         </div>
                     )}
+                    {/* {successMsg && (
+                        <div className="success-overlay-inner">
+                            <div className="success-popup">
+                                <p>{successMsg}</p>
+                                <button onClick={async() => {
+
+                                    setSuccessMsg('');
+
+                                    try {
+                                        const profileCheck = await checkProfile();
+
+                                        if(profileCheck.profileCompleted){
+                                            navigate('/profile');
+                                        }else (
+                                            navigate('/new')
+                                        )
+                                    }catch(err){
+                                        navigate('/new')
+                                    }
+                                }}>
+                                    OK
+                                </button>
+                            </div>
+                        </div>
+                    )} */}
                     {successMsg && (
                         <div className="success-overlay-inner">
                             <div className="success-popup">
                                 <p>{successMsg}</p>
-                                <button onClick={() => {
-
+                                <button onClick={async () => {
+                                    console.log('🔘 OK button clicked');
                                     setSuccessMsg('');
-                                    navigate('/new');
+                                    
+                                    try {
+                                        console.log('📞 Calling checkProfile...');
+                                        const profileCheck = await checkProfile();
+                                        console.log('✅ checkProfile result:', profileCheck);
+                                        
+                                        if (profileCheck.profileCompleted) {
+                                            console.log('→ Navigating to /profile');
+                                            navigate('/profile');
+                                        } else {
+                                            console.log('→ Navigating to /new');
+                                            navigate('/new');
+                                        }
+                                    } catch (err) {
+                                        console.error('❌ Error in checkProfile:', err);
+                                        console.log('→ Fallback: navigating to /new');
+                                        navigate('/new');
+                                    }
                                 }}>
                                     OK
                                 </button>

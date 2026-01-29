@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { completeProfile } from '../services/api';
 import { getRandomBackNewProfile } from '../utils/randomBackground';
 import '../styles/NewProfile.css';
+import '../styles/Auth.css'
 
 function NewProfile() {
     const navigate = useNavigate();
@@ -80,106 +81,81 @@ function NewProfile() {
             </h1>
 
             {/* formulaire */}
-            <div className="new-profile-container">
-                <div className='new-profile-card'>
-                    <h2 className='new-profile-title'>Complete Your Profile</h2>
-                    <p className='new-profile-subtitle'>Tell us about yourself</p>
+            <div className="auth-overlay visible">
+                <div className='auth-container'>
+                    <h2 className='auth-title' style={{ position: 'relative', top: 0, left:0}}>
+                        Complete Your Profile</h2>
+
+                    <p className='new-profile-subtitle' style={{ position: 'relative', top: -30, left:0}}>
+                        Tell us about yourself</p>
 
                     {/* gender */}
                     <form onSubmit={handleSubmit} className='new-profile-form'>
-                        <div className='form-group'>
-                            <label>Gender *</label>
-                            <select value={gender}
-                                    onChange={(e) => setGender(e.target.value)}
-                                    required
+                            <select 
+                                value={gender}
+                                onChange={(e) => setGender(e.target.value)}
+                                className='auth-input'
+                                style={{color: '#e0e0e0ff'}}
+                                required
                             >
-                                <option value="">Select Your gender</option>
+                                <option value="">Gender *</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                                 <option value="non-binary">Non-binary</option>
                                 <option value="other">Other</option>
                             </select>
-                        </div>
-
-                        {/*orientation */}
-                        {/* <div className='form-group'>
-                            <label>What's your orientation ?</label>
-                            <select value={sexualPreference}
-                                    onChange={(e) => setSexualPreference(e.target.value)}
-                                    required
-                            >
-                                <option value="">Select your prefence</option>
-                                <option value="hetero">Hetero</option>
-                                <option value="gay">Gay</option>
-                                <option value="lesbienne">Lesbienne</option>
-                                <option value="asexuel-le">Asexuel-le</option>
-                            </select>
-                        </div> */}
 
                         {/* pref sexu */}
-                        <div className='form-group'>
-                            <label>What's your prefence ?</label>
-                            <select value={sexualPreference}
-                                    onChange={(e) => setSexualPreference(e.target.value)}
-                                    required
+                            <select 
+                                value={sexualPreference}
+                                onChange={(e) => setSexualPreference(e.target.value)}
+                                className='auth-input'
+                                style={{color: '#e0e0e0ff'}}
                             >
-                                <option value="">Select your prefence</option>
+                                <option value="">Preference*</option>
                                 <option value="men">Men</option>
                                 <option value="women">Women</option>
                                 <option value="both">both</option>
                             </select>
-                        </div>
+                        
 
                         {/* birth date */}
-                        <div className='form-group'>
-                            <label>What's your birth date ?</label>
                             <input
                                 type='date'
                                 value={birthDate}
                                 onChange={(e) => setBirthDate(e.target.value)}
                                 max={new Date().toISOString().split('T')[0]} //empecher les dates futures
+                                className='auth-input'
+                                placeholder="Birth Date"
+                                style={{color: '#e0e0e0ff'}}
                                 required
                             />
-                        </div>
 
                         {/* ville */}
-                        <div className='form-group'>
-                            <label>What's your city ?</label>
                             <input
                                 type='text'
-                                placeholder='e.g. Paris, London, Tokyo'
+                                placeholder= "City"
+                                className='auth-input'
                                 value={city}
                                 onChange={(e) => setCity(e.target.value)}
                             />
-                        </div>
-
-                        {/* bio */}
-                        <div className='form-group'>
-                            <label>About me</label>
-                            <textarea
-                                placeholder='Tell us about yourself, your hobbies, what you are looking for...'
-                                value={bio}
-                                onChange={(e) => setBio(e.target.value)}
-                                rows="4"
-                                maxLength="500"
-                            />
-                            <span className='char-count'>{bio.length}/500</span>
-                        </div>
 
                         {/* error */}
                         {error && (
-                            <div className='error-message'>
+                            <div className="error-popup">
                                 {error}
+                                <button type="button" onClick={() => setError('')}>✕</button>
                             </div>
                         )}
 
                         {/* bouton*/}
                         <button
                             type='submit'
-                            className='submit-button'
+                            className='auth-button'
+                            style={{backgroundColor: '#E02B2E'}}
                             disabled={isLoading}
                         >
-                            {isLoading ? 'Saving...' : 'Complete Profile'}
+                            {isLoading ? 'Saving...' : 'Next'}
                         </button>
 
                     </form>

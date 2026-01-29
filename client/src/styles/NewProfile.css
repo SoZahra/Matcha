@@ -33,9 +33,13 @@
 }
 
 .new-profile-subtitle {
-    color: rgba(255, 255, 255, 0.7);
+    position: fixed;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 200;
     text-align: center;
-    margin-bottom: 30px;
+    top: -130px;
+    left: 150px;
 }
 
 .new-profile-form {

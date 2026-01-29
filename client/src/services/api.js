@@ -84,3 +84,26 @@ export const completeProfile = async (profileData) => {
         throw error
     }
 }
+
+export const checkProfile = async () => {
+    try {
+        const token = localStorage.getItem('token')
+
+        const response = await fetch(`${API_URL}/profile/check`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if(!response.ok){
+            const error = await response.json();
+            throw new Error(error.error || 'Could not check the profile')     
+        }
+        return await response.json();
+    }catch(err){
+        console.error(err)
+        throw err
+    }
+}
